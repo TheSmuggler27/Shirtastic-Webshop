@@ -7,8 +7,56 @@
 </head>
 <body>
   <h2>Unsere Shirts</h2>
+
+  <input type="text" id="searchInput" placeholder="Suche Shirts..." style="padding:10px;width:60%;margin-bottom:20px;">
+
   <div id="product-list" class="products"></div>
 
   <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const searchInput = document.getElementById("searchInput");
+      const productList = document.getElementById("product-list");
+
+      const products = [
+        { name: "Black Oversize Tee", price: "€29.99", img: "img/shirt1.jpg" },
+        { name: "White Graphic Tee", price: "€34.99", img: "img/shirt2.jpg" }
+      ];
+
+      function renderProducts(filter = "") {
+        productList.innerHTML = "";
+        products.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
+          .forEach(p => {
+            const productDiv = document.createElement("div");
+            productDiv.className = "product";
+            productDiv.innerHTML = `
+              <img src="${p.img}" alt="${p.name}" width="200"><br>
+              <p><strong>${p.name}</strong></p>
+              <p>${p.price}</p>
+              <button data-name="${p.name}" data-price="${p.price}">Add to Cart</button>
+            `;
+            productList.appendChild(productDiv);
+          });
+      }
+
+      renderProducts();
+
+      searchInput.addEventListener("input", () => {
+        renderProducts(searchInput.value);
+      });
+
+      productList.addEventListener("click", (e) => {
+        if (e.target.tagName === "BUTTON") {
+          const name = e.target.getAttribute("data-name");
+          const price = e.target.getAttribute("data-price");
+          const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+          cart.push({ name, price });
+          localStorage.setItem("cart", JSON.stringify(cart));
+          alert(`${name} wurde zum Warenkorb hinzugefügt.`);
+        }
+      });
+    });
+  </script>
 </body>
 </html>

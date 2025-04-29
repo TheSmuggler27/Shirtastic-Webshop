@@ -13,6 +13,7 @@
       <a href="product.html">Produkte</a>
       <a href="register.html">Registrieren</a>
       <a href="login.html">Login</a>
+      <a href="checkout.html">Checkout</a>
     </nav>
   </header>
 
@@ -22,19 +23,39 @@
 
   <section class="products">
     <div class="product">
-      <h2> Streetwear T-Shirt</h2>
-      <p>Price: €29.99</p>
-      <button>Add to Cart</button>
+      <p><strong>Streetwear T-Shirt</strong></p>
+      <p>€29.99</p>
+      <button data-name="Streetwear T-Shirt" data-price="29.99">Add to Cart</button>
     </div>
     <div class="product">
-      <h2> Graphic Tee</h2>
-      <p>Price: €24.99</p>
-      <button>Add to Cart</button>
+      <p><strong>Graphic Tee</strong></p>
+      <p>€24.99</p>
+      <button data-name="Graphic Tee" data-price="24.99">Add to Cart</button>
     </div>
   </section>
+  
+  
+  
 
   <footer>
     <p>&copy; 2025 Shirtastic Team. All rights reserved.</p>
   </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const productSection = document.querySelector(".products");
+
+      productSection.addEventListener("click", (e) => {
+        if (e.target.tagName === "BUTTON") {
+          const name = e.target.getAttribute("data-name");
+          const price = e.target.getAttribute("data-price");
+          const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+          cart.push({ name, price });
+          localStorage.setItem("cart", JSON.stringify(cart));
+          alert(`${name} wurde zum Warenkorb hinzugefügt.`);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
