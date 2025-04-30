@@ -5,15 +5,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("searchInput");
 
   if (registerForm) {
-      registerForm.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const username = document.getElementById("username").value;
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-          localStorage.setItem("user", JSON.stringify({ username, email, password }));
-          document.getElementById("registerMsg").textContent = "Registrierung erfolgreich!";
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+  
+      fetch("http://localhost/Shirtastic-Webshop/api/register.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, email, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "ok") {
+          alert("Registrierung erfolgreich!");
+          window.location.href = "login.html";
+        } else {
+          alert("Fehler: " + data.message);
+        }
+      })
+      .catch(error => {
+        console.error("Fehler beim Senden:", error);
+        alert("Ein Fehler ist aufgetreten.");
       });
+    });
   }
+  
+  
+  
 
   if (loginForm) {
       loginForm.addEventListener("submit", (e) => {
