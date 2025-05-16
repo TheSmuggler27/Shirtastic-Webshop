@@ -1,24 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
-<head>
-  <meta charset="UTF-8">
-  <title>Shirtastic Webshop</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <h1>Welcome to Shirtastic</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="product.html">Produkte</a>
-      <a href="register.html">Registrieren</a>
-      <a href="login.html">Login</a>
-      <a href="checkout.html">Checkout</a>
-    </nav>
-  </header>
-
-=======
 
 <header class="navbar">
   <div class="navbar-left">
@@ -36,28 +17,10 @@
 </header>
 
 <body>
->>>>>>> 845a5b7 (Initial commit)
   <section class="intro">
     <p>We sell trendy, high-quality T-shirts for the streetwear generation.</p>
   </section>
 
-<<<<<<< HEAD
-  <section class="products">
-    <div class="product">
-      <p><strong>Streetwear T-Shirt</strong></p>
-      <p>€29.99</p>
-      <button data-name="Streetwear T-Shirt" data-price="29.99">Add to Cart</button>
-    </div>
-    <div class="product">
-      <p><strong>Graphic Tee</strong></p>
-      <p>€24.99</p>
-      <button data-name="Graphic Tee" data-price="24.99">Add to Cart</button>
-    </div>
-  </section>
-  
-  
-  
-=======
 <section class="hero-section">
   <img src="../img/street.png" alt="Hero Image" class="hero-img">
   <div class="hero-text">
@@ -67,32 +30,12 @@
   </div>
 </section>
 
->>>>>>> 845a5b7 (Initial commit)
 
   <footer>
     <p>&copy; 2025 Shirtastic Team. All rights reserved.</p>
   </footer>
 
-<<<<<<< HEAD
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const productSection = document.querySelector(".products");
-
-      productSection.addEventListener("click", (e) => {
-        if (e.target.tagName === "BUTTON") {
-          const name = e.target.getAttribute("data-name");
-          const price = e.target.getAttribute("data-price");
-          const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-          cart.push({ name, price });
-          localStorage.setItem("cart", JSON.stringify(cart));
-          alert(`${name} wurde zum Warenkorb hinzugefügt.`);
-        }
-      });
-    });
-  </script>
-=======
   <script src="main.js"></script>
 
->>>>>>> 845a5b7 (Initial commit)
 </body>
 </html>

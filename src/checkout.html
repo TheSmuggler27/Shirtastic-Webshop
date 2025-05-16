@@ -5,8 +5,6 @@
   <title>Checkout</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<<<<<<< HEAD
-=======
 
 <header class="navbar">
   <div class="navbar-left">
@@ -23,7 +21,7 @@
   <link rel="stylesheet" href="style.css">
 </header>
 
->>>>>>> 845a5b7 (Initial commit)
+
 <body>
   <h2>Checkout</h2>
 
@@ -35,38 +33,7 @@
 
   <p id="checkoutMsg"></p>
 
-<<<<<<< HEAD
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const checkoutForm = document.getElementById("checkoutForm");
-
-      checkoutForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const name = document.getElementById("name").value;
-        const address = document.getElementById("address").value;
-        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-        if (cart.length === 0) {
-          document.getElementById("checkoutMsg").textContent = "Ihr Warenkorb ist leer.";
-          return;
-        }
-
-        const order = {
-          name,
-          address,
-          items: cart,
-          date: new Date().toLocaleString()
-        };
-
-        localStorage.setItem("order", JSON.stringify(order));
-        localStorage.removeItem("cart");
-
-        document.getElementById("checkoutMsg").textContent = "Bestellung erfolgreich! Vielen Dank.";
-      });
-    });
-  </script>
-=======
   <script src="main.js"></script>
->>>>>>> 845a5b7 (Initial commit)
+
 </body>
 </html>
