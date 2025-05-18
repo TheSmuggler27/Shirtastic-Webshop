@@ -1,38 +1,40 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+require_once 'DB.php';
+$pdo = DB::getConnection();
+$stmt = $pdo->prepare("SELECT * FROM users WHERE ...");
 
-$conn = new mysqli("localhost", "root", "", "shirtastic webshop");
 
-if ($conn->connect_error) {
-  die(json_encode(["status" => "error", "message" => "DB-Verbindung fehlgeschlagen."]));
-}
-
+// 从前端获取 JSON 数据
 $data = json_decode(file_get_contents("php://input"), true);
+$identifier = $data['identifier'] ?? '';
+$password = $data['password'] ?? '';
 
-if (!isset($data["email"]) || !isset($data["password"])) {
-  echo json_encode(["status" => "error", "message" => "Fehlende Eingabedaten."]);
-  exit;
+try {
+    // 查询数据库，允许用户名或邮箱登录
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :identifier OR email = :identifier");
+    $stmt->execute(['identifier' => $identifier]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // 如果查到用户并且密码正确
+    if ($user && password_verify($password, $user['password'])) {
+        if ((int)$user['active'] === 1) {
+            echo json_encode([
+                "status" => "ok",
+                "username" => $user['username'],
+                "role" => $user['role'],
+                "userId" => $user['id']
+            ]);
+        } else {
+            echo json_encode([
+                "status" => "error",
+                "message" => "User account is disabled."
+            ]);
+        }
+    } else {
+        echo json_encode(["status" => "error", "message" => "Invalid login credentials."]);
+    }
+} catch (PDOException $e) {
+    echo json_encode(["status" => "error", "message" => "Database error."]);
 }
 
-$email = $data["email"];
-$password = $data["password"];
-    
-$stmt = $conn->prepare("SELECT id, username, password FROM users WHERE email = ?");
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
 
-if ($row = $result->fetch_assoc()) {
-  if (password_verify($password, $row["password"])) {
-    echo json_encode(["status" => "ok", "username" => $row["username"]]);
-  } else {
-    echo json_encode(["status" => "error", "message" => "Falsches Passwort."]);
-  }
-} else {
-  echo json_encode(["status" => "error", "message" => "E-Mail nicht gefunden."]);
-}
-
-$stmt->close();
-$conn->close();
-?>

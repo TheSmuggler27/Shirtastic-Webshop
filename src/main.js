@@ -1,118 +1,70 @@
+function getCookie(name) {
+  const value = "; " + document.cookie;
+  const parts = value.split("; " + name + "=");
+  if (parts.length === 2) return parts.pop().split(";").shift();
+}
+
+function getCartKey() {
+  const uid = localStorage.getItem("userId");
+  return uid ? `cart_user_${uid}` : "cart_guest";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  const registerForm = document.getElementById("registerForm");
-  const loginForm = document.getElementById("loginForm");
-  const productList = document.getElementById("product-list");
-  const searchInput = document.getElementById("searchInput");
+  const username = getCookie("username");
+  const role = getCookie("role");
 
-  if (registerForm) {
-    registerForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const username = document.getElementById("username").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-  
-      fetch("http://localhost/Shirtastic-Webshop/api/register.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, email, password })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === "ok") {
-          alert("Registrierung erfolgreich!");
-          window.location.href = "login.html";
-        } else {
-          alert("Fehler: " + data.message);
-        }
-      })
-      .catch(error => {
-        console.error("Fehler beim Senden:", error);
-        alert("Ein Fehler ist aufgetreten.");
-      });
-    });
-  }
-  
-  
-  
+  const loginLink = document.getElementById("loginLink");
+  const registerLink = document.getElementById("registerLink");
+  const centerNav = document.querySelector(".navbar-center");
 
-  if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-  
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-  
-      fetch("http://localhost/Shirtastic-Webshop/api/login.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === "ok") {
-          document.getElementById("loginMsg").textContent = "Login erfolgreich!";
-          // Optional: Speichere Nutzername
-          sessionStorage.setItem("username", data.username);
-          setTimeout(() => {
-            window.location.href = "index.html";
-          }, 1000);
-        } else {
-          document.getElementById("loginMsg").textContent = "Fehler: " + data.message;
-        }
-      })
-      .catch(err => {
-        document.getElementById("loginMsg").textContent = "Serverfehler: " + err;
-      });
-    });
-  }
-  
+  if (username) {
+    // 登录后显示“我的账号”
+    if (loginLink) {
+      loginLink.textContent = "My Account";
+      loginLink.href = "myaccount.html";
+    }
 
-  
-  if (productList) {
-    let allProducts = [];
-  
-    fetch("http://localhost/Shirtastic-Webshop/api/products.php")
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === "ok") {
-          allProducts = data.products;
-          renderProducts(allProducts);
-        }
-      });
-  
-    function renderProducts(products) {
-      productList.innerHTML = "";
-      products.forEach(p => {
-        const div = document.createElement("div");
-        div.className = "product";
-        div.innerHTML = `
-          <p><strong>${p.name}</strong></p>
-          <p>€${p.price}</p>
-          <button data-name="${p.name}" data-price="${p.price}">Add to Cart</button>
-        `;
-        productList.appendChild(div);
+    // 登录后把“Join Us”变成 Logout
+    if (registerLink) {
+      registerLink.textContent = "Logout";
+      registerLink.href = "#";
+      registerLink.addEventListener("click", () => {
+        document.cookie = "username=; max-age=0; path=/";
+        document.cookie = "role=; max-age=0; path=/";
+        sessionStorage.clear();
+        localStorage.removeItem("userId");
+        window.location.href = "login.html";
       });
     }
-  
-    if (searchInput) {
-      searchInput.addEventListener("input", () => {
-        const query = searchInput.value.toLowerCase();
-        const filtered = allProducts.filter(p => p.name.toLowerCase().includes(query));
-        renderProducts(filtered);
-      });
+
+    // 根据角色动态添加链接到中部导航
+    if (role === "admin" && centerNav) {
+      const adminLink = document.createElement("a");
+      adminLink.href = "admin.html";
+      adminLink.textContent = "Products";
+      centerNav.appendChild(adminLink);
     }
-  
-    productList.addEventListener("click", (e) => {
-      if (e.target.tagName === "BUTTON") {
-        const name = e.target.getAttribute("data-name");
-        const price = e.target.getAttribute("data-price");
-        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        cart.push({ name, price });
-        localStorage.setItem("cart", JSON.stringify(cart));
-        alert(`${name} wurde zum Warenkorb hinzugefügt.`);
-      }    
-    });
+
+    if (role === "user" && centerNav) {
+      const orderLink = document.createElement("a");
+      orderLink.href = "myorders.html";
+      orderLink.textContent = "My Orders";
+      centerNav.appendChild(orderLink);
+    }
+  }
+
+  // 显示购物车数量
+  const cartLink = document.getElementById("cartLink");
+  if (cartLink) {
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem(getCartKey()) || "[]");
+      cartLink.textContent = `Cart (${cart.length})`;
+    }
+
+    updateCartCount();
+    setInterval(updateCartCount, 1000);
   }
 });
+
+
+

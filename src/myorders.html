@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>My Orders</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -25,28 +25,14 @@
     </div>
   </header>
 
-  <!-- Login Section -->
+  <!-- Main Content -->
   <main class="container">
-    <div class="login-box">
-      <h1 class="section-title">Login</h1>
-      <form id="loginForm">
-        <input type="text" id="loginEmail" placeholder="Email or Username" required><br>
-        <input type="password" id="loginPassword" placeholder="Password" required><br>
-
-
-        <label class="remember-inline">
-          Remember login
-          <input type="checkbox" id="rememberMe">
-        </label>
-          <br>
-
-        <button type="submit" class="cta-button">Login</button>
-      </form>
-      <p id="loginMsg" style="color: green; margin-top: 10px;"></p>
-    </div>
+    <h1 class="section-title">My Orders</h1>
+    <div id="ordersContainer" class="orderList"></div>
   </main>
 
   <script src="main.js"></script>
-  <script src="auth.js"></script>
+  <script src="myorders.js"></script>
 </body>
 </html>
+

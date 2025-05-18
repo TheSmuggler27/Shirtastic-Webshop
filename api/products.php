@@ -1,20 +1,30 @@
 <?php
-header("Content-Type: application/json");
+require_once 'DB.php';
+$pdo = DB::getConnection();
+$stmt = $pdo->prepare("SELECT * FROM users WHERE ...");
 
-$conn = new mysqli("localhost", "root", "", "shirtastic webshop");
-if ($conn->connect_error) {
-  echo json_encode(["status" => "error", "message" => "DB-Verbindung fehlgeschlagen."]);
-  exit;
+
+$category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
+
+try {
+    if ($category_id) {
+        $stmt = $pdo->prepare("SELECT p.*, c.name AS category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE category_id = ?");
+        $stmt->execute([$category_id]);
+    } else {
+        $stmt = $pdo->query("SELECT p.*, c.name AS category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id");
+    }
+
+    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode([
+        "status" => "ok",
+        "products" => $products
+    ]);
+} catch (Exception $e) {
+    echo json_encode([
+        "status" => "error",
+        "message" => $e->getMessage()
+    ]);
 }
 
-$result = $conn->query("SELECT id, name, price, img FROM products");
-$products = [];
 
-while ($row = $result->fetch_assoc()) {
-  $products[] = $row;
-}
 
-echo json_encode(["status" => "ok", "products" => $products]);
-
-$conn->close();
-?>
