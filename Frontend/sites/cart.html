@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <img src="../img/logo.png" alt="Shirtastic Logo" class="logo">
+    </div>
+    <div class="navbar-center">
+      <a href="index.html">Home</a>
+      <a href="product.html">Products</a>
+      <a href="cart.html" id="cartLink">Cart</a>
+    </div>
+    <div class="navbar-right">
+      <a href="register.html" id="registerLink">Join Us</a>
+      <a href="login.html" id="loginLink">Sign In</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <h1 class="section-title">Your Cart</h1>
+
+    <!-- Cart Summary -->
+    <div class="cart-summary" style="margin-bottom: 40px;">
+      <h3 style="margin-bottom: 10px;">Cart Summary</h3>
+      <ul id="cartItems" style="list-style: none; padding-left: 0;"></ul>
+      <p id="cartTotal"><strong>Total:</strong> €0.00</p>
+      <p id="discountedTotal" style="color: green;"></p>
+    </div>
+
+    <!-- Order Form -->
+    <form id="cartForm">
+      <input type="text" id="name" placeholder="Name" required>
+      <input type="text" id="address" placeholder="Address" required>
+
+      <label for="payment">Payment Method:</label>
+      <select id="payment" required>
+        <option value="">Select</option>
+        <option value="credit_card">Credit Card</option>
+        <option value="paypal">PayPal</option>
+        <option value="voucher">Voucher</option>
+      </select>
+
+      <div id="voucherSection" style="display: none;">
+        <label for="voucherCode">Voucher Code:</label>
+        <input type="text" id="voucherCode" placeholder="Enter voucher code">
+        <button type="button" id="verifyVoucherBtn" class="primary-btn">Verify</button>
+      </div>
+
+      <button type="submit" class="primary-btn">Submit Order</button>
+    </form>
+
+    <p id="cartMsg" style="color: green; margin-top: 20px;"></p>
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/cart.js"></script>
+</body>
+</html>
+
+
+
+

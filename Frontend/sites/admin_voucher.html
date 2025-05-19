@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Voucher Management</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<header class="navbar">
+  <div class="navbar-left">
+    <img src="../img/logo.png" alt="Shirtastic Logo" class="logo">
+  </div>
+
+  <div class="navbar-center">
+    <a href="admin_users.html">Users</a>
+    <a href="admin_voucher.html">Vouchers</a>
+    <a href="admin_orders.html">Orders</a>
+  </div>
+
+  <div class="navbar-right">
+    <a href="register.html" id="registerLink">Join Us</a>
+  </div>
+</header>
+<link rel="stylesheet" href="../css/style.css">
+
+<body>
+  <main>
+    <h2 class="section-title">Voucher Management</h2>
+
+    <section>
+      <div class="admin-text" style="text-align: center;">
+      <h3>Create New Voucher</h3>
+      </div>
+      <form id="voucherForm">
+        <label>Code: <input type="text" id="code" required /></label><br><br>
+        <label>Amount (€): <input type="number" id="amount" required /></label><br><br>
+        <label>Valid Until: <input type="date" id="validUntil" required /></label><br><br>
+        <button type="submit">Create Voucher</button>
+      </form>
+      
+      <div id="voucherMsg" class="admin-text" style="text-align: center;"></div>
+    </section>
+
+    <section>
+
+      <div class="admin-text" style="text-align: center;">
+      <h3>Existing Vouchers</h3>
+      </div>
+
+      <table class="table" border="1">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Amount (€)</th>
+            <th>Valid Until</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="voucherTableBody">
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/admin_voucher.js"></script>
+</body>
+</html>

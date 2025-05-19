@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrierung</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<header class="navbar">
+  <div class="navbar-left">
+    <img src="../img/logo.png" alt="Shirtastic Logo" class="logo">
+  </div>
+
+  <div class="navbar-center">
+    <a href="index.html">Home</a>
+    <a href="product.html">Products</a>
+    <a href="cart.html" id="cartLink">Cart</a>
+  </div>
+
+  <div class="navbar-right">
+    <a href="register.html" id="registerLink">Join Us</a>
+    <a href="login.html" id="loginLink">Sign In</a>
+  </div>
+</header>
+<link rel="stylesheet" href="../css/style.css">
+
+<body>
+  <h1 class="section-title">Register</h1>
+
+
+  <form id="registerForm" novalidate>
+    <select id="salutation" >
+      <option value="">Select salutation</option>
+      <option value="Herr">Mr.</option>
+      <option value="Frau">Ms.</option>
+    </select><br>
+
+    <input type="text" id="first_name" placeholder="First name" ><br>
+    <input type="text" id="last_name" placeholder="Last name" ><br>
+    <input type="text" id="address" placeholder="Address" ><br>
+    <input type="text" id="postal_code" placeholder="Postal code" ><br>
+    <input type="text" id="city" placeholder="City" ><br>
+    <input type="email" id="email" placeholder="Email" ><br>
+    <input type="text" id="username" placeholder="Username" ><br>
+    
+    <input type="password" id="password" placeholder="Password" ><br>
+    <input type="password" id="confirmPassword" placeholder="repeat Password" ><br>
+
+    <label for="payment_info">Payment Method:</label>
+      <select id="payment_info" required>
+      <option value="">Choose payment method</option>
+      <option value="Credit Card">Credit Card</option>
+      <option value="PayPal">PayPal</option>
+    </select><br>
+
+
+
+    <button type="submit">Join now</button>
+  </form>
+
+  <p id="registerMsg" style="color: green; margin-top: 10px;"></p>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/register.js"></script>
+</body>
+</html>
