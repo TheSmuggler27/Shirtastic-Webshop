@@ -1,22 +1,23 @@
 <?php
 require_once __DIR__ . '/../config/DB.php';
 $pdo = DB::getConnection();
- 
+
+try {
+    // 执行查询：从 categories 中获取 id 和 name
+    // SQL-Abfrage: Kategorien-ID und Name auslesen
+    $stmt = $pdo->query("SELECT id, name FROM categories");
+
+    // 以关联数组形式获取所有分类
+    // Ergebnisse als assoziatives Array abrufen
+    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // 返回成功 JSON 响应
+    // Rückgabe der Kategorien als JSON
+    echo json_encode(["status" => "ok", "categories" => $categories]);
 
 
-$mysqli = new mysqli("localhost", "root", "", "shirtastic_db");
-
-if ($mysqli->connect_error) {
-    echo json_encode(["status" => "error", "message" => "DB connection failed"]);
-    exit;
+    
+} catch (PDOException $e) {
+    echo json_encode(["status" => "error", "message" => "DB error", "details" => $e->getMessage()]);
 }
 
-$result = $mysqli->query("SELECT id, name FROM categories");
-
-$categories = [];
-while ($row = $result->fetch_assoc()) {
-    $categories[] = $row;
-}
-
-echo json_encode(["status" => "ok", "categories" => $categories]);
-$mysqli->close();

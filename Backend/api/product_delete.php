@@ -5,14 +5,17 @@ $pdo = DB::getConnection();
 
 
 // 确保请求是 DELETE
+// Prüfen, ob die HTTP-Methode DELETE ist
 if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
     echo json_encode(["status" => "error", "message" => "Invalid request method."]);
     exit;
 }
 
-// 从 URL 或 DELETE body 获取 id
+// 从Request-Body或 URL 获取产品 ID
+// Produkt-ID aus dem Request-Body oder aus der lesenURL 
 parse_str(file_get_contents("php://input"), $data);
 $id = $data['id'] ?? $_GET['id'] ?? null;
+
 
 if (!$id) {
     echo json_encode(["status" => "error", "message" => "Missing product ID."]);
